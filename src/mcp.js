@@ -1,5 +1,3 @@
-import { spawn } from "node:child_process";
-
 // Lazy import to avoid hard crash if deps are not installed yet
 async function loadMcpClient() {
   const clientMod = await import("@modelcontextprotocol/sdk/client/index.js").catch(() => null);
@@ -25,8 +23,11 @@ export class McpHub {
         args: srv.args || [],
         env: srv.env || {},
       });
-      const client = new Client(transport, { name: srv.label || srv.id || srv.command });
-      await client.connect();
+      const client = new Client({
+        name: srv.label || srv.id || srv.command,
+        version: "0.1.0",
+      });
+      await client.connect(transport);
       this.clients.set(srv.id || srv.command, { client, cfg: srv });
       // List tools and cache by name
       const listed = await client.listTools?.() ?? (await client.tools?.list?.()) ?? { tools: [] };
