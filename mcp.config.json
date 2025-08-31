@@ -1,0 +1,11 @@
+{
+  "servers": [
+    {
+      "id": "websearch",
+      "label": "WebSearch-MCP",
+      "command": "node",
+      "args": ["./web-search-mcp/dist/index.js"]
+    }
+  ]
+}
+
